@@ -48,7 +48,7 @@ CREATE TABLE Categories(
 
 
 CREATE TABLE Places(
-	Placeid int PRIMARY KEY,
+	Placeid serial PRIMARY KEY,
 	Place_name varchar(300) NOT NULL
 
 );
