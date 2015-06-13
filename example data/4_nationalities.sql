@@ -15,5 +15,9 @@ Brazil
 South Korea
 Ukraine
 Poland
+Jamaica
+Netherland
+Trinidad and Tobago
 \.
 COMMIT;
+

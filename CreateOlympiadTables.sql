@@ -3,14 +3,14 @@ CREATE TYPE result_type AS ENUM('double', 'time', 'int');
 
 CREATE TABLE Nationalities(
 	NationalityId serial PRIMARY KEY,
-	Nationality varchar(100) NOT NULL
+	Nationality varchar(100) UNIQUE NOT NULL
 );
 
 CREATE TABLE People (
-	Id int PRIMARY KEY,
+	Id serial PRIMARY KEY,
     	Name varchar(100) NOT NULL,
     	Surname varchar(100) NOT NULL,
-   	Birth_Date date check (Birth_date<'2001-01-01')NOT NULL,
+   	Birth_Date date check (Birth_date<'2001-01-01')NOT NULL, 
 	Sex char(1) check(Sex = 'F' OR Sex = 'M'),
 	nationalityId int REFERENCES nationalities NOT NULL,
 	First_Start date default now() NOT NULL, -- pierwszy wystep w reprezentajcji or slt, potrzebujemy ludzi juz nie startujacych do rekordow
