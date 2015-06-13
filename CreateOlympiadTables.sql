@@ -83,6 +83,11 @@ CREATE TABLE Records(
 	
 );
 
+CREATE TABLE Decisions(
+	shortcut varchar(3) PRIMARY KEY,
+	decision_name varchar(20) NOT NULL
+);
+
 CREATE TABLE Results(
 	
 	EventId int REFERENCES Events NOT NULL,
@@ -107,10 +112,7 @@ CREATE TABLE Team_to_Event(
 	UNIQUE(TeamId,EventId)
 );
 
-CREATE TABLE Decisions(
-	shortcut varchar(3) PRIMARY KEY,
-	decision_name varchar(20) NOT NULL
-);
+
 
 
 
