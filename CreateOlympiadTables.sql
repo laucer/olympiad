@@ -11,13 +11,13 @@ CREATE TABLE People (
 	Id int PRIMARY KEY,
     	Name varchar(100) NOT NULL,
     	Surname varchar(100) NOT NULL,
-   	Birth_Date date NOT NULL,
+   	Birth_Date date check (Birth_date<'2001-01-01')NOT NULL,
 	Sex char(1) check(Sex = 'F' OR Sex = 'M'),
 	nationalityId int REFERENCES nationalities NOT NULL,
 	First_Start date default now() NOT NULL, -- pierwszy wystep w reprezentajcji or slt, potrzebujemy ludzi juz nie startujacych do rekordow
 	Last_Start date check(First_start<Last_Start),
-	Height int check(Height>100),
-	Weight int check(Weight>30) 
+	Height int check(Height>100) NOT NULL,
+	Weight int check(Weight>30) NOT NULL
 	
 
 ); 
@@ -90,7 +90,7 @@ CREATE TABLE Results(
 	Team2Id int REFERENCES Teams(TeamId),
 	Content varchar(150),
 	Judge_decisions varchar(10) check(Judge_decisions = 'Q' OR Judge_decisions = 'D' OR Judge_decisions = 'WJD' OR
-Judge_decisions = 'W')
+Judge_decisions = 'W') REFERENCES Decisions(shortcut)
 	
 );
 
@@ -105,6 +105,11 @@ CREATE TABLE Team_to_Event(
 	TeamId int REFERENCES Teams NOT NULL,
 	EventId int REFERENCES Events NOT NULL,
 	UNIQUE(TeamId,EventId)
+);
+
+CREATE TABLE Decisions(
+	shortcut varchar(3) PRIMARY KEY,
+	decision_name varchar(20) NOT NULL
 );
 
 
