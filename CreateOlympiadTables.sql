@@ -11,7 +11,7 @@ CREATE TABLE People (
 	Id int PRIMARY KEY,
     	Name varchar(100) NOT NULL,
     	Surname varchar(100) NOT NULL,
-   	Birth_Date date check (Birth_date<'2001-01-01')NOT NULL,
+   	Birth_Date date check ((current_timestamp - Birth_date)>interval '14 years')NOT NULL,
 	Sex char(1) check(Sex = 'F' OR Sex = 'M'),
 	nationalityId int REFERENCES nationalities NOT NULL,
 	First_Start date default now() NOT NULL, -- pierwszy wystep w reprezentajcji or slt, potrzebujemy ludzi juz nie startujacych do rekordow
