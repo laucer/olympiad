@@ -18,6 +18,13 @@ Poland
 Jamaica
 Netherland
 Trinidad and Tobago
+The Bahamas
+Cayman Islands
+Zambia
+Antigua and Barbuda
+Saint Kitts and Nevis
+Ivory Coast
+Gambia
 \.
 COMMIT;
 
