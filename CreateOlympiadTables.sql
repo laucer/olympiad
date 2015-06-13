@@ -2,9 +2,8 @@
 CREATE TYPE result_type AS ENUM('double', 'time', 'int');
 
 CREATE TABLE Nationalities(
-	NationalityId int PRIMARY KEY,
+	NationalityId serial PRIMARY KEY,
 	Nationality varchar(100) NOT NULL
-
 );
 
 CREATE TABLE People (
