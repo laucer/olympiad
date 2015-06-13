@@ -135,3 +135,55 @@ $$
 	END;
 $$
 language plpgsql;
+
+-- this function creates competitor. It takse person's details and discipline and create person, create team and join person to team
+-- NOTICE: It the code below: discipline is the most specific kind of activity, like Men's 100 m run
+CREATE OR REPLACE FUNCTION Create_Individual_And_Assign(p_name text, p_surname text, p_birth_date date, p_sex text, p_nation text, p_weight int, p_height int, p_category text) returns void as
+$$
+DECLARE
+nation_id int;
+person_id int;
+team_id int;
+cat_id int;
+BEGIN
+	-- check if sport discipline alread exists
+	IF (SELECT COALESCE(count(*), 0) FROM categories c where c.name = p_category) = 0 THEN
+		RAISE NOTICE 'Aborting creating person due invalid discipline name';
+		RETURN;
+		END IF;
+	-- check if nationality exists
+	IF (SELECT COALESCE(count(*), 0) FROM nationalities n where n.nationality = p_nation) = 0 THEN
+		nation_id = nextval('nationalities_nationalityid_seq');
+		INSERT INTO nationalities(nationalityid, nationality) VALUES (nation_id, p_nation); END IF;
+	nation_id = (SELECT nationalityid FROM nationalities WHERE nationality = p_nation);
+	person_id = nextval('people_id_seq');
+	INSERT INTO people(id, name, surname, birth_date, sex, nationalityid, height, weight) VALUES(person_id, p_name, p_surname, p_birth_date, p_sex, nation_id, p_height, p_weight);
+	team_id = nextval('individual_seq');
+	cat_id = (SELECT categoryid FROM categories c WHERE c.name = p_category);
+	INSERT INTO teams VALUES(team_id, cat_id, nation_id);
+	INSERT INTO competitor_to_team VALUES (person_id, team_id);
+END;
+$$
+language plpgsql;
+
+-- creates team which takes part in discipline(like Men''s 100 m run), takes array of ints: id's of competitors and join them to the team
+-- NOTICE: It the code below: discipline is the most specific kind of activity, like Men's 100 m run 
+CREATE OR REPLACE FUNCTION Create_Team(discipline text, VARIADIC players int[]) returns void as
+$$
+DECLARE
+	team_id int;
+	cat_id int;
+	nation_id int;
+	numb int;
+BEGIN
+	team_id = nextval('team_seq');
+	cat_id = (SELECT categoryid from categories c WHERE c.name = discipline);
+	nation_id = (SELECT nationalityid from people WHERE people.id = players[1]);
+	INSERT INTO teams(teamid, categoryid, nationality) VALUES(team_id, cat_id, nation_id);
+	FOREACH numb IN ARRAY players LOOP
+		INSERT INTO competitor_to_team(competitorid, teamid) VALUES(numb, team_id);
+	END LOOP;
+	RETURN;
+END;
+$$
+language plpgsql;
