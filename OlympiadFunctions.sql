@@ -5,7 +5,7 @@ CREATE SEQUENCE team_seq START 5001 MAXVALUE 10000 INCREMENT BY 1;
 CREATE SEQUENCE category_seq START 10 INCREMENT BY 10;
 CREATE SEQUENCE event_seq START 1 INCREMENT BY 5;
 
-CREATE OR REPLACE FUNCTION rand_date(frommm date, tooo date) returns date AS
+CREATE OR REPLACE FUNCTION Rand_Date(frommm date, tooo date) returns date AS
 $$
 	BEGIN
 	IF tooo < frommm THEN return null; END IF;
@@ -15,7 +15,7 @@ $$
 language plpgsql;
 
 
-CREATE OR REPLACE FUNCTION rand_nationality() returns text AS
+CREATE OR REPLACE FUNCTION Rand_Nationality() returns text AS
 $$
 	DECLARE
 		a text[];
@@ -38,7 +38,7 @@ $$
 language plpgsql;
 
 
-CREATE OR REPLACE FUNCTION rand_surname() returns text AS
+CREATE OR REPLACE FUNCTION Rand_Surname() returns text AS
 $$
 	DECLARE
 		A text[];
@@ -71,7 +71,7 @@ $$
 $$
 language plpgsql;
 
-CREATE OR REPLACE function rand_name() returns text AS
+CREATE OR REPLACE function Rand_Name() returns text AS
 $$
 	DECLARE
 		A text[];
@@ -112,7 +112,7 @@ $$
 $$
 language plpgsql;
 
-CREATE OR REPLACE FUNCTION insert_and_assaign_random_team(competitionid int) returns void as
+CREATE OR REPLACE FUNCTION Insert_And_Assaign_Random_Team(competitionid int) returns void as
 $$
 	DECLARE 
 		r record;
@@ -135,5 +135,3 @@ $$
 	END;
 $$
 language plpgsql;
-
-

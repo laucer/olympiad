@@ -195,8 +195,8 @@ $data_type_check$
 		t = NEW.content;
 		FOR r IN (SELECT resulttype FROM results NATURAL JOIN events NATURAL JOIN categories NATURAL JOIN category_to_type WHERE eventid = NEW.eventid)
 		LOOP
-			IF r.resulttype = 'double' THEN PERFORM t::numeric; END IF;
-			IF r.resulttype = 'int' THEN PERFORM t::int; END IF;
+			IF r.resulttype = 'doubleInc' THEN PERFORM t::numeric; END IF;
+			IF r.resulttype = 'intInc' THEN PERFORM t::int; END IF;
 			IF r.resulttype = 'time' THEN PERFORM t::interval; END IF; 
 		END LOOP;
 		RETURN NEW;

@@ -1,5 +1,4 @@
-
-CREATE TYPE result_type AS ENUM('double', 'time', 'int');
+CREATE TYPE result_type AS ENUM('timeINC', 'timeDec', 'intInc', 'intDec', 'doubleInc', 'doubleDec', 'teamScore');
 
 CREATE TABLE Nationalities(
 	NationalityId serial PRIMARY KEY,
@@ -10,39 +9,33 @@ CREATE TABLE People (
 	Id serial PRIMARY KEY,
     	Name varchar(100) NOT NULL,
     	Surname varchar(100) NOT NULL,
-   	Birth_Date date check ((current_timestamp - Birth_date)>interval '14 years')NOT NULL,
+   	Birth_Date date check ((current_timestamp - Birth_date) > interval '14 years') NOT NULL,
 	Sex char(1) check(Sex = 'F' OR Sex = 'M'),
-	nationalityId int REFERENCES nationalities NOT NULL,
+	NationalityId int REFERENCES nationalities NOT NULL,
 	First_Start date default now() NOT NULL, -- pierwszy wystep w reprezentajcji or slt, potrzebujemy ludzi juz nie startujacych do rekordow
-	Last_Start date check(First_start<Last_Start),
-	Height int check(Height>100) NOT NULL,
-	Weight int check(Weight>30) NOT NULL
+	Last_Start date check(First_start < Last_Start),
+	Height int check(Height > 100) NOT NULL,
+	Weight int check(Weight > 30) NOT NULL
 	
 
 ); 
 
-CREATE TABLE Super_Categories(
-	Category_name varchar(200) PRIMARY KEY,
-	SuperCategory varchar(200)
-
-);
-
-CREATE TABLE Category_To_Type(
-
-	Category_name varchar(200) PRIMARY KEY,
+CREATE TABLE Disciplines(
+	Discipline_Name varchar(200) PRIMARY KEY,
+	SuperDiscipline varchar(200),
 	ResultType result_type NOT NULL
 );
 
+
 CREATE TABLE Categories(
 	CategoryId int PRIMARY KEY,
-	name varchar(200) NOT NULL,
+	Name varchar(200) NOT NULL,
 	Max_Team_Capacity int NOT NULL,
 	Min_Team_Capacity int NOT NULL,
 	Max_Team_Number int NOT NULL,
 	Max_Team_Number_Per_Nationality int NOT NULL,
-	Category_name varchar(200) REFERENCES Super_categories(Category_name) REFERENCES Category_To_Type NOT NULL, 
-	UNIQUE(name,Category_name)
-	
+	Discipline_Name varchar(200) REFERENCES Disciplines(Discipline_Name) NOT NULL, 
+	UNIQUE(Name, Discipline_Name)
 );
 
 
@@ -50,7 +43,6 @@ CREATE TABLE Categories(
 CREATE TABLE Places(
 	Placeid serial PRIMARY KEY,
 	Place_name varchar(300) NOT NULL
-
 );
 
 CREATE TABLE Events(
