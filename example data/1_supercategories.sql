@@ -1,51 +1,48 @@
 BEGIN;
 --according to wiki's Olympics page
-COPY Super_Categories (Category_name, SuperCategory) FROM stdin;
-Diving	Aquatics
-Swimming	Aquatics
-Synchronized swimming	Aquatics
-Water polo	Aquatics
-Archery	\N
-Athletics	\N
-Badminton	\N
-Basketball	\N
-Boxing	\N
-Sprint canoeing	Canoeing
-Slalom canoeing	Canoeing
-BMX cycling	Cycling
-Mountain biking cycling	Cycling
-Road cycling	Cycling
-Track cycling	Cycling
-Dressage equestrian	Equestrian
-Eventing equestrian	Equestrian
-Jumping equestrian	Equestrian
-Fencing	\N
-Field hockey	\N
-Football	\N
-Artistic gymnastics	Gymnastics
-Rhytmin gymnastics	Gymnastics
-Trampoline gymnastics	Gymnastics
-Handball	\N
-Judo	\N
-Modern pentathlon	\N
-Rowing	\N
-Sailing	\N
-Shooting	\N
-Table tennis	\N
-Taekwondo	\N
-Tennis	\N
-Triathlon	\N
-Indoor volleyball	Volleyball
-Beach volleyball	Volleyball
-Weightlifting	\N
-Freestyle wrestling	Wrestling
-Greco-Roman wrestling	Wrestling
-\.
--- items below are mock categories ie they aren't specified on the wiki pages, but it's kind natural
-COPY Super_Categories (Category_name, SuperCategory) FROM stdin;
-Runs	Athletics
-Jumps	Athletics
-Throws	Athletics
+COPY Disciplines (Discipline_Name, SuperDiscipline, ResultType) FROM stdin;
+Diving	Aquatics	doubleInc
+Swimming	Aquatics	timeDec
+Synchronized swimming	Aquatics	doubleInc
+Water polo	Aquatics	intInc
+Archery	\N	doubleInc
+Athletics	\N	doubleInc
+Badminton	\N	intInc
+Basketball	\N	intInc
+Boxing	\N	intInc
+Sprint canoeing	Canoeing	timeDec
+Slalom canoeing	Canoeing	timeDec
+BMX cycling	Cycling	timeDec
+Mountain biking cycling	Cycling	timeDec
+Road cycling	Cycling	timeDec
+Track cycling	Cycling	timeDec
+Dressage equestrian	Equestrian	doubleInc
+Eventing equestrian	Equestrian	doubleDec
+Jumping equestrian	Equestrian	timeDec
+Fencing	\N	intInc
+Field hockey	\N	intInc
+Football	\N	intInc
+Artistic gymnastics	Gymnastics	doubleInc
+Rhytmin gymnastics	Gymnastics	doubleInc
+Trampoline gymnastics	Gymnastics	doubleInc
+Handball	\N	intInc
+Judo	\N	intInc
+Modern pentathlon	\N	doubleInc
+Rowing	\N	timeDec
+Sailing	\N	timeDec
+Shooting	\N	doubleInc
+Table tennis	\N	intInc
+Taekwondo	\N	intInc
+Tennis	\N	intInc
+Triathlon	\N	timeDec
+Indoor volleyball	Volleyball	intInc
+Beach volleyball	Volleyball	intInc
+Weightlifting	\N	doubleInc
+Freestyle wrestling	Wrestling	intInc
+Greco-Roman wrestling	Wrestling	intInc
+Runs	Athletics	timeDec
+Jumps	Athletics	doubleInc
+Throws	Athletics	doubleInc
 \.
 
 COMMIT;
