@@ -669,7 +669,7 @@ COPY Team_to_Event (TeamId, EventId) FROM stdin;
 COPY decisions (shortcut, decision_name) FROM stdin;
 Q	Qualified
 D	Disqualified
-WJD	Winner By Judge Decision
+WJD	Winner By Judge
 W	Walkover
 \.
 
