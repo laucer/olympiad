@@ -66,8 +66,8 @@ CREATE TABLE Events_additional_info(
 );
 
 CREATE TABLE Records(
-	CategoryId int REFERENCES Categories, --moze byc null
-	Conqueror int REFERENCES People(CompetitorId), --moze byc null
+	CategoryId int REFERENCES Categories NOT NULL,
+	Conqueror int REFERENCES People(CompetitorId) NOT NULL,
 	Datum timestamp NOT NULL,
 	Content varchar(150) NOT NULL
 	
@@ -106,9 +106,27 @@ CREATE TABLE Team_to_Event(
 
 CREATE TABLE Medals(
 	TeamId int REFERENCES Teams NOT NULL,
-	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL
+	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL,
+	UNIQUE(TeamId);
 
 );
+
+CREATE OR REPLACE VIEW MedalsByNationality AS
+	SELECT NationalityId, 
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 1 group by nationality) AS "Gold Medal", 
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 2 group by nationality) AS "Silver Medal",
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 3 group by nationality) AS "Bronze Medal"
+
+	FROM Nationalities N
+	ORDER BY 2, 3, 4, 1;
+	
+CREATE OR REPLACE VIEW MedalsByCompetitors AS
+	SELECT CompetitorId,
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 1 group by teamid) "Gold Medal", 
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 2 group by teamid) "Silver Medal", 
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 3 group by teamid) "Bronze Medal" 
+	FROM People P
+	ORDER BY 2, 3, 4, 1;
 
 
 

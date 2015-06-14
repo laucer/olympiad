@@ -112,30 +112,6 @@ $$
 $$
 language plpgsql;
 
-CREATE OR REPLACE FUNCTION Insert_And_Assaign_Random_Team(competitionid int) returns void as
-$$
-	DECLARE 
-		r record;
-		playerid int;
-		teamid int;
-	BEGIN
-		IF NOT (competitionid IN (SELECT CategoryID FROM categories)) THEN RAISE EXCEPTION 'No such category'; END IF;
-		teamid = nextval('team_seq');
-		FOR r IN SELECT Max_team_Capacity FROM categories WHERE CategoryId = competitionid
-		LOOP
-			INSERT INTO Teams SELECT teamid, competitionid;
-			FOR i IN 1..r.max_team_capacity
-			LOOP
-				playerid = nextval('person_seq');
-				INSERT INTO people SELECT playerid, rand_name(),rand_surname(),rand_date('1970-01-01','1980-12-31'),rand_nationality(),rand_date('1996-01-01',now()::date),NULL;
-				INSERT INTO competitor_to_team SELECT playerid,teamid;
-		
-			END LOOP;
-		END LOOP;
-	END;
-$$
-language plpgsql;
-
 -- this function creates competitor. It takse person's details and discipline and create person, create team and join person to team
 -- NOTICE: It the code below: discipline is the most specific kind of activity, like Men's 100 m run
 CREATE OR REPLACE FUNCTION Create_Individual_And_Assign(p_name text, p_surname text, p_birth_date date, p_sex text, p_nation text, p_weight int, p_height int, p_category text) returns void as
