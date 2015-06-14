@@ -12,8 +12,8 @@ Basketball	\N	intInc
 Boxing	\N	intInc
 Sprint canoeing	Canoeing	timeDec
 Slalom canoeing	Canoeing	timeDec
-BMX cycling	Cycling	
-Mountain biking cycling	Cycling	
+BMX cycling	Cycling	timeDec
+Mountain biking cycling	Cycling	timeDec
 Road cycling	Cycling	timeDec
 Track cycling	Cycling	timeDec
 Dressage equestrian	Equestrian	doubleInc
