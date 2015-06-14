@@ -194,52 +194,52 @@ $$
 	DECLARE 
 	BEGIN
 		IF type = 'doubleInc' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::numeric,0)) as rel
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::numeric,0)) as rel
 		FROM (SELECT teamid, coalesce(max(coalesce(content::numeric,0)+coalesce(additional_content::numeric,0)),0) as res 
 		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;
 		END IF;
 
 		IF type = 'doubleDec' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid,  (res+coalesce(overall_penalties::numeric,0)) as rel
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid,  (res+coalesce(overall_penalties::numeric,0)) as rel
 		FROM (SELECT  teamid, coalesce(min(coalesce(content::numeric,0)+coalesce(additional_content::numeric,0)),0) as res 
 		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;
 		END IF;
 
 		IF type = 'timeInc' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::interval,interval '0')) as rel
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::interval,interval '0')) as rel
 		FROM (SELECT teamid, coalesce(max(coalesce(content::interval,interval '0')
 +coalesce(additional_content::interval,interval '0')),interval '0') as res
 		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;
 		END IF;
 
 		IF type = 'timeDec' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res+coalesce(overall_penalties::interval,interval '0')) as rel 
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res+coalesce(overall_penalties::interval,interval '0')) as rel 
 		FROM (SELECT teamid, coalesce(min(coalesce(content::interval,interval '0')
 +coalesce(additional_content::interval,interval '0')),interval '0') as res
 		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;	
 		END IF;
 
 		IF type = 'intDec' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res+
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res+
 coalesce(overall_penalties::int,0)) as rel 
 		FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
-		FROM  results R JOIN teams ON team1Id = teamid JOIN WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid  GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2) AS SUB2;
+		FROM  results R JOIN teams ON team1Id = teamid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2) AS SUB2;
 		END IF;
 		IF type = 'intInc' THEn
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res-
 coalesce(overall_penalties::int,0) ) as rel
 		 FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
-		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2 DESC) AS SUB2;
+		FROM  results R JOIN teams ON team1Id = teamid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2 DESC) AS SUB2;
 		END IF;
 		IF type = 'doubleAvg' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res -
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res -
 coalesce(overall_penalties::numeric,0) ) as rel
 		FROM (SELECT teamid, coalesce(avg(coalesce(content::numeric,0)
 +coalesce(additional_content::numeric,0)),0) as res 
 		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid  GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;
 		END IF;
 		IF type = 'timeAvg' THEN
-		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, res+coalesce(overall_penalties::interval,interval '0')  as rel
+		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, res+coalesce(overall_penalties::interval,interval '0')  as rel
 		FROM (SELECT teamid, coalesce(avg(coalesce(content::interval,interval '0')
 +coalesce(additional_content::interval,interval '0')),interval'0') as res 
 		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;

@@ -190,17 +190,21 @@ CREATE OR REPLACE FUNCTION data_type_check() RETURNS TRIGGER AS
 $data_type_check$
 		DECLARE
 		r record;
-		t text;
+		t1 text;
+		t2 text;
+		t3 text;
 		BEGIN
-		t = NEW.content;
+		t1 = NEW.content;
+		t2 = NEW.additional_content;
+		t3 = NEW.overall_penalties;
 		FOR r IN (SELECT resulttype FROM results NATURAL JOIN events NATURAL JOIN categories NATURAL JOIN category_to_type WHERE eventid = NEW.eventid)
 		LOOP
-			IF r.resulttype = 'doubleInc' THEN PERFORM t::numeric; END IF;
-			IF r.resulttype = 'intInc' THEN PERFORM t::int; END IF;
-			IF r.resulttype = 'doubleDec'THEN PERFORM t::numeric; END IF;
-			IF r.resulttype = 'intDec' THEN PERFORM t::int; END IF;
-			IF r.resulttype = 'timeInc' THEN PERFORM t::interval; END IF; 
-			IF r.resulttype = 'timeDec' THEN PERFORM t::interval; END IF; 
+			IF r.resulttype = 'doubleInc' THEN PERFORM t1::numeric; PERFORM t2::numeric; PERFORM t3::numeric; END IF;
+			IF r.resulttype = 'intInc' THEN PERFORM t1::int; PERFORM t2::int; PERFORM t3::int; END IF;
+			IF r.resulttype = 'doubleDec'THEN PERFORM t1::numeric; PERFORM t2::numeric; PERFORM t3::numeric; END IF;
+			IF r.resulttype = 'intDec' THEN PERFORM t1::int; PERFORM t2::int; PERFORM t3::int; END IF;
+			IF r.resulttype = 'timeInc' THEN PERFORM t1::interval; PERFORM t2::interval; PERFORM t3::interval; END IF; 
+			IF r.resulttype = 'timeDec' THEN PERFORM t1::interval; PERFORM t2::interval; PERFORM t3::interval; END IF; 
 		END LOOP;
 		RETURN NEW;
 		EXCEPTION
@@ -211,5 +215,6 @@ $data_type_check$ language plpgsql;
 
 CREATE TRIGGER data_type_check BEFORE INSERT OR UPDATE ON results 
 FOR EACH ROW EXECUTE PROCEDURE data_type_check();
+
  
 
