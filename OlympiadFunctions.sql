@@ -133,7 +133,7 @@ BEGIN
 		INSERT INTO nationalities(nationalityid, nationality) VALUES (nation_id, p_nation); END IF;
 	nation_id = (SELECT nationalityid FROM nationalities WHERE nationality = p_nation);
 	person_id = nextval('people_id_seq');
-	INSERT INTO people((competitorid, name, surname, birth_date, sex, nationalityid, height, weight) VALUES(person_id, p_name, p_surname, p_birth_date, p_sex, nation_id, p_height, p_weight);
+	INSERT INTO people(competitorid, name, surname, birth_date, sex, nationalityid, height, weight) VALUES(person_id, p_name, p_surname, p_birth_date, p_sex, nation_id, p_height, p_weight);
 	team_id = nextval('individual_seq');
 	cat_id = (SELECT categoryid FROM categories c WHERE c.name = p_category);
 	INSERT INTO teams VALUES(team_id, cat_id, nation_id);
