@@ -121,12 +121,12 @@ CREATE OR REPLACE VIEW MedalsByNationality AS
 	ORDER BY 2 DESC, 3 DESC, 4 DESC, 1 NULLS LAST;
 	
 CREATE OR REPLACE VIEW MedalsByCompetitors AS
-	SELECT CompetitorId, 
-		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 1 group by teamid) "Gold Medal", 
-		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 2 group by teamid) "Silver Medal", 
-		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 3 group by teamid) "Bronze Medal" 
-	FROM People P
-	ORDER BY 2, 3, 4, 1;
+	SELECT CompetitorId,
+		(SELECT COUNT (*) FROM Medals m, competitor_to_team ct, teams t where ct.competitorid = p.CompetitorId AND t.teamid = ct.teamid AND m.medal = 1 AND m.teamid = t.teamid) "Gold Medal", 
+		(SELECT COUNT (*) FROM Medals m, competitor_to_team ct, teams t where ct.competitorid = p.CompetitorId AND t.teamid = ct.teamid AND m.medal = 2 AND m.teamid = t.teamid) "Silver Medal", 
+		(SELECT COUNT (*) FROM Medals m, competitor_to_team ct, teams t where ct.competitorid = p.CompetitorId AND t.teamid = ct.teamid AND m.medal = 3 AND m.teamid = t.teamid) "Bronze Medal" 
+	FROM People p
+	ORDER BY 2 DESC, 3 DESC, 4 DESC, 1;
 
 --FUNCTIONS
 
