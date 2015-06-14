@@ -52,6 +52,4 @@ COPY Results (EventId, Team1Id, Team2Id, Content, Additional_Content, Overall_pe
 6	101	106	'1'	\N	\N	\N
 7	101	111	'3'	\N	\N	\N
 7	106	116	'3'	\N	\N	\N
-
-
 \.
