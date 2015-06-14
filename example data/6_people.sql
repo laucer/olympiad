@@ -1,33 +1,42 @@
-BEGIN;
-
-
-INSERT INTO People(Name, Surname, Birth_Date, Sex, nationalityId, Height, Weight) VALUES
-('Usain', 'Bolt', '21 August 1986' , 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Jamaica'), 196, 94),
-('Yohan', 'Blake' ,'26 December 1989' , 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Jamaica'), 180,76),
-('Justin', 'Gatlin','10 February 1982' , 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'United States'),185 ,83),
-('Ryan', 'Bailey', '13 April 1989', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'United States'), 193 , 82),
-('Churandy','Martina' ,'3 July 1984' , 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Netherland'), 178 , 74),
-('Richard','Thompson' , '7 June 1985', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Trinidad and Tobago'),188 ,79),
-('Asafa', 'Powell', '23 November 1982', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Jamaica'),190 ,88),
-('Tyson','Gay' , 'August 9, 1982', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'United States'),180 ,75),
-
-('Adam','Gemili' , '6 October 1993', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Great Britain'),165 ,58),
-('Derrick ','Atkins' , '5 January 1984', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'The Bahamas'),180 ,80),
-('Justyn','Warner' , 'June 28, 1987', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Canada'),173 ,79),
-('Ryota','Yamagata' , '10 June 1992', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Japan'),176 ,67),
-('Rondell','Sorrillo' , 'August 9, 1982', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Trinidad and Tobago'),179 ,79),
-('Kemar','Hyman' , '11 October 1989', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Cayman Islands'),178 ,74),
-('Dwain ','Chambers' , '5 April 1978', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Great Britain'),180 ,91),
-('Gerald ','Phiri' , '6 October 1988', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Zambia'),178 ,80),
-('Daniel ','Bailey' , '9 September 1986', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Antigua and Barbuda'),179 ,68),
-('Antoine ','Adams' , '31 August 1988', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Saint Kitts and Nevis'),180 ,79),
-('Su ','Bingtian' , '29 August 1989', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'China'),172 ,65),
-('Keston ','Bledman' , '8 March 1988', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Trinidad and Tobago'),183 ,75),
-('Ben','Meité' , 'November 11, 1986', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Ivory Coast'),180 ,84),
-('Jimmy ','Vicaut' , ' 27 February 1992', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'France'),184 ,76),
-('James ','Dasaolu' , '5 September 1987', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Great Britain'),186 ,87),
-('Suwaibou  ','Sanneh' , ' 27 February 1992', 'M', (SELECT NationalityId FROM Nationalities WHERE Nationality = 'Gambia'),183 ,80)
-
-;
-
-COMMIT;
+COPY People ( Name, Surname, Birth_Date, Sex, NationalityId, Height, Weight) FROM stdin;
+Ira	Bbrube	1985-03-07	M	1	175	75
+Bhnjamin	Bujchman	1982-01-11	M	1	169	83
+Nathanael	Holzes	1985-05-18	M	1	152	72
+Heather	Rqvel	1988-08-27	M	1	168	82
+Akexis	Oiff	1981-08-12	M	1	159	75
+Noah	Bzlt	1986-11-06	M	2	155	86
+Chad	Adajoson	1987-06-29	M	2	192	72
+Hal	Toulouse-Laut	1982-02-04	M	2	166	85
+Bv	Stkin	1986-10-11	M	2	194	86
+Alfredo	Cou	1980-06-14	M	2	172	72
+Matt	Oxff	1982-04-08	M	3	186	84
+Solomon	Vsvaldi	1982-09-17	M	3	199	85
+Felton	Fqagonard	1988-10-29	M	3	185	74
+Ollie	Duvid	1981-02-14	M	3	182	76
+Xio	Cermen	1980-08-30	M	3	174	74
+Dianne	Cou	1982-04-03	M	4	165	76
+Juan	Beqube	1988-09-07	M	4	172	74
+Len	Cdu	1989-08-05	M	4	173	76
+Christopher	Berg	1989-06-28	M	4	175	74
+Alicja	Cezlnne	1989-04-07	M	4	172	84
+Lena	Stracss	1983-09-20	M	5	191	84
+Anhel	Oeff	1986-02-02	M	5	182	75
+Hai	Bllke	1981-07-04	M	5	176	85
+Hrmer	Svein	1982-12-30	M	5	162	94
+Len	Cblvin	1980-05-01	M	5	171	88
+Alyson	Etg	1981-12-05	M	6	173	75
+Ktm	Cgvanaugh	1982-09-23	M	6	195	96
+Lce	Ctin	1987-12-03	M	6	182	89
+Kfmberly	Nlbkov	1989-01-12	M	6	183	78
+At	Nabyov	1984-05-26	M	6	171	85
+Ivaac	Chcridn	1982-09-25	M	7	192	74
+Aujutine	Adkins	1986-01-13	M	7	183	97
+Noah	Vivoldi	1982-09-05	M	7	171	85
+Isaias	Narkov	1987-03-17	M	7	192	76
+Duryll	Brqtton	1988-02-21	M	7	183	99
+Owcar	Cafill	1982-12-14	M	8	171	88
+Lio	Kqfka	1987-03-05	M	8	182	72
+Xavier	Ocff	1988-06-06	M	8	193	91
+Almero	Gjgh	1987-03-31	M	8	171	84
+Atelle	Delgadnllo	1984-07-07	M	8	162	78
+\.
