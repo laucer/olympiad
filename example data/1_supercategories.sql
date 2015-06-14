@@ -38,7 +38,7 @@ Triathlon	\N	timeDec
 Indoor volleyball	Volleyball	intInc
 Beach volleyball	Volleyball	intInc
 Weightlifting	\N	doubleInc
-Freestyle wrestling	Wrestling	
+Freestyle wrestling	Wrestling	intInc
 Greco-Roman wrestling	Wrestling	intInc
 Runs	Athletics	timeDec
 Jumps	Athletics	doubleInc
