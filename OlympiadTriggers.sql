@@ -98,7 +98,7 @@ $nationality_check_people$
 	DECLARE
 	r record;
 	BEGIN
-		FOR r  IN SELECT nationality FROM people P NATURAL JOIN competitor_to_team C JOIN teams T ON C.teamid = T.teamid WHERE competitorid = NEW.id LOOP
+		FOR r  IN SELECT nationality FROM people P NATURAL JOIN competitor_to_team C JOIN teams T ON C.teamid = T.teamid WHERE competitorid = NEW.competitorid LOOP
 		IF NOT coalesce( NEW.nationalityid = r.nationlity,true)
 		THEN RAISE EXCEPTION 'team and competitors must be of the same nationality'; END IF;
 		END LOOP;
@@ -197,7 +197,10 @@ $data_type_check$
 		LOOP
 			IF r.resulttype = 'doubleInc' THEN PERFORM t::numeric; END IF;
 			IF r.resulttype = 'intInc' THEN PERFORM t::int; END IF;
-			IF r.resulttype = 'time' THEN PERFORM t::interval; END IF; 
+			IF r.resulttype = 'doubleDec'THEN PERFORM t::numeric; END IF;
+			IF r.resulttype = 'intDec' THEN PERFORM t::int; END IF;
+			IF r.resulttype = 'timeInc' THEN PERFORM t::interval; END IF; 
+			IF r.resulttype = 'timeDec' THEN PERFORM t::interval; END IF; 
 		END LOOP;
 		RETURN NEW;
 		EXCEPTION

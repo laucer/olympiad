@@ -1,4 +1,4 @@
-CREATE TYPE result_type AS ENUM('timeINC', 'timeDec', 'intInc', 'intDec', 'doubleInc', 'doubleDec', 'teamScore');
+CREATE TYPE result_type AS ENUM('timeInc', 'timeDec', 'intInc', 'intDec', 'doubleInc', 'doubleDec', 'timeAvg','doubleAvg');
 
 CREATE TABLE Nationalities(
 	NationalityId serial PRIMARY KEY,
@@ -6,7 +6,7 @@ CREATE TABLE Nationalities(
 );
 
 CREATE TABLE People (
-	Id serial PRIMARY KEY,
+	CompetitorId serial PRIMARY KEY,
     	Name varchar(100) NOT NULL,
     	Surname varchar(100) NOT NULL,
    	Birth_Date date check ((current_timestamp - Birth_date) > interval '14 years') NOT NULL,
@@ -85,6 +85,8 @@ CREATE TABLE Results(
 	Team1Id int REFERENCES Teams(TeamId) NOT NULL,
 	Team2Id int REFERENCES Teams(TeamId),
 	Content varchar(150),
+	Additional_Content varchar(150),
+	Overall_penalties varchar(150),
 	Judge_decisions varchar(10) check(Judge_decisions = 'Q' OR Judge_decisions = 'D' OR Judge_decisions = 'WJD' OR
 Judge_decisions = 'W') REFERENCES Decisions(shortcut)
 	
@@ -103,6 +105,11 @@ CREATE TABLE Team_to_Event(
 	UNIQUE(TeamId,EventId)
 );
 
+CREATE TABLE Medals(
+	TeamId int REFERENCES Teams NOT NULL,
+	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL
+
+);
 
 
 

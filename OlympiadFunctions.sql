@@ -157,7 +157,7 @@ BEGIN
 		INSERT INTO nationalities(nationalityid, nationality) VALUES (nation_id, p_nation); END IF;
 	nation_id = (SELECT nationalityid FROM nationalities WHERE nationality = p_nation);
 	person_id = nextval('people_id_seq');
-	INSERT INTO people(id, name, surname, birth_date, sex, nationalityid, height, weight) VALUES(person_id, p_name, p_surname, p_birth_date, p_sex, nation_id, p_height, p_weight);
+	INSERT INTO people((competitorid, name, surname, birth_date, sex, nationalityid, height, weight) VALUES(person_id, p_name, p_surname, p_birth_date, p_sex, nation_id, p_height, p_weight);
 	team_id = nextval('individual_seq');
 	cat_id = (SELECT categoryid FROM categories c WHERE c.name = p_category);
 	INSERT INTO teams VALUES(team_id, cat_id, nation_id);
@@ -166,7 +166,7 @@ END;
 $$
 language plpgsql;
 
--- creates team which takes part in discipline(like Men''s 100 m run), takes array of ints: id's of competitors and join them to the team
+-- creates team which takes part in discipline(like Men''s 100 m run), takes array of ints:  competitorid's of competitors and join them to the team
 -- NOTICE: It the code below: discipline is the most specific kind of activity, like Men's 100 m run 
 CREATE OR REPLACE FUNCTION Create_Team(discipline text, VARIADIC players int[]) returns void as
 $$
@@ -178,7 +178,7 @@ DECLARE
 BEGIN
 	team_id = nextval('team_seq');
 	cat_id = (SELECT categoryid from categories c WHERE c.name = discipline);
-	nation_id = (SELECT nationalityid from people WHERE people.id = players[1]);
+	nation_id = (SELECT nationalityid from people WHERE people..competitorid = players[1]);
 	INSERT INTO teams(teamid, categoryid, nationality) VALUES(team_id, cat_id, nation_id);
 	FOREACH numb IN ARRAY players LOOP
 		INSERT INTO competitor_to_team(competitorid, teamid) VALUES(numb, team_id);
@@ -187,3 +187,106 @@ BEGIN
 END;
 $$
 language plpgsql;
+
+CREATE OR REPLACE FUNCTION get_Ranking_Teams(category int, type result_type, eid int) returns
+	table(team int, result text) AS
+$$
+	DECLARE 
+	BEGIN
+		IF type = 'doubleInc' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::numeric,0)) as rel
+		FROM (SELECT teamid, coalesce(max(coalesce(content::numeric,0)+coalesce(additional_content::numeric,0)),0) as res 
+		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;
+		END IF;
+
+		IF type = 'doubleDec' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid,  (res+coalesce(overall_penalties::numeric,0)) as rel
+		FROM (SELECT  teamid, coalesce(min(coalesce(content::numeric,0)+coalesce(additional_content::numeric,0)),0) as res 
+		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;
+		END IF;
+
+		IF type = 'timeInc' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-coalesce(overall_penalties::interval,interval '0')) as rel
+		FROM (SELECT teamid, coalesce(max(coalesce(content::interval,interval '0')
++coalesce(additional_content::interval,interval '0')),interval '0') as res
+		FROM results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;
+		END IF;
+
+		IF type = 'timeDec' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res+coalesce(overall_penalties::interval,interval '0')) as rel 
+		FROM (SELECT teamid, coalesce(min(coalesce(content::interval,interval '0')
++coalesce(additional_content::interval,interval '0')),interval '0') as res
+		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;	
+		END IF;
+
+		IF type = 'intDec' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res+
+coalesce(overall_penalties::int,0)) as rel 
+		FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
+		FROM  results R JOIN teams ON team1Id = teamid JOIN WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid  GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2) AS SUB2;
+		END IF;
+		IF type = 'intInc' THEn
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res-
+coalesce(overall_penalties::int,0) ) as rel
+		 FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
+		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2 DESC) AS SUB2;
+		END IF;
+		IF type = 'doubleAvg' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, (res -
+coalesce(overall_penalties::numeric,0) ) as rel
+		FROM (SELECT teamid, coalesce(avg(coalesce(content::numeric,0)
++coalesce(additional_content::numeric,0)),0) as res 
+		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid  GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2) AS SUB2;
+		END IF;
+		IF type = 'timeAvg' THEN
+		return QUERY SELECT teamid, rel::text FROM (SELECT teamid, res+coalesce(overall_penalties::interval,interval '0')  as rel
+		FROM (SELECT teamid, coalesce(avg(coalesce(content::interval,interval '0')
++coalesce(additional_content::interval,interval '0')),interval'0') as res 
+		FROM  results R JOIN teams ON team1Id = teamid JOIN events E ON E.eventid = R.eventid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') AND E.eventid = eid GROUP BY teamid) AS SUB JOIN results ON team1id = teamid WHERE results.eventid = eid ORDER BY 2 DESC) AS SUB2;
+		END IF;
+	END;
+
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION get_Winners_of_Category(category int, lim int = 0) returns
+	table(team int, result text) AS
+$$
+	BEGIN
+		IF lim = 0 THEN 
+		RETURN QUERY SELECT * FROM get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryid = category),(SELECT eventid FROM events WHERE runde = 1 AND categoryid = category));
+		END IF;
+		IF lim>0 THEN
+		RETURN QUERY SELECT * FROM get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryid = category),(SELECT eventid FROM events WHERE runde = 1 AND categoryid = category)) LIMIT lim;
+		END IF;
+	END;
+
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION get_Ranking_of_Category(category int,  event int, lim int = 0) returns
+	table(team int, result text) AS
+$$
+	BEGIN
+		IF lim = 0 THEN
+		RETURN QUERY SELECT * FROM get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryid = category),event);
+		END IF;
+		IF lim>0 THEN
+		RETURN QUERY SELECT * FROM get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryid = category),event) LIMIT lim;
+		END IF;
+	END;
+	
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION get_Ranking_with_People(category int, event int, lim int =0) returns
+	table(team int, competitor int, First_name varchar(100), Surname varchar(100),  result text) AS
+$$
+	BEGIN
+		IF lim = 0 THEN
+		RETURN QUERY SELECT teamid, P.competitorId, P.name, P.surname, RT.result FROM People P JOIN competitor_to_team CT ON P.competitorId = CT.competitorId JOIN get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryID = category),event) RT ON CT.teamid = RT.team;
+		END IF;
+		IF lim > 0 THEN
+		RETURN QUERY SELECT teamid, competitorId, name, surname, result FROM People P JOIN competitor_to_team CT ON P.competitorId = CT.competitorId JOIN get_Ranking_Teams(category,(SELECT resulttype FROM Disciplines NATURAL JOIN categories WHERE categoryID = category),event) RT ON CT.teamid = RT.team LImit lim;
+		END IF;
+	END;
+$$ language plpgsql;
+
+
