@@ -68,7 +68,7 @@ CREATE TABLE Events_additional_info(
 
 CREATE TABLE Records(
 	CategoryId int REFERENCES Categories, --moze byc null
-	Conqueror int REFERENCES People(Id), --moze byc null
+	Conqueror int REFERENCES People(CompetitorId), --moze byc null
 	Datum timestamp NOT NULL,
 	Content varchar(150) NOT NULL
 	
@@ -94,7 +94,7 @@ Judge_decisions = 'W') REFERENCES Decisions(shortcut)
 
 
 CREATE TABLE competitor_to_team (
-	CompetitorId int REFERENCES People(Id) NOT NULL, 
+	CompetitorId int REFERENCES People(CompetitorId) NOT NULL, 
 	TeamId int REFERENCES Teams NOT NULL,
 	UNIQUE(CompetitorId,TeamID)
  );
