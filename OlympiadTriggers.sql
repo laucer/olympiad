@@ -99,7 +99,7 @@ $nationality_check_people$
 	r record;
 	BEGIN
 		FOR r  IN SELECT nationality FROM people P NATURAL JOIN competitor_to_team C JOIN teams T ON C.teamid = T.teamid WHERE competitorid = NEW.competitorid LOOP
-		IF NOT coalesce( NEW.nationalityid = r.nationlity,true)
+		IF NOT coalesce( NEW.nationalityid = r.nationality,true)
 		THEN RAISE EXCEPTION 'team and competitors must be of the same nationality'; END IF;
 		END LOOP;
 		RETURN NEW;
