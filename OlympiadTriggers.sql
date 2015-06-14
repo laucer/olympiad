@@ -197,7 +197,7 @@ $data_type_check$
 		t1 = NEW.content;
 		t2 = NEW.additional_content;
 		t3 = NEW.overall_penalties;
-		FOR r IN (SELECT resulttype FROM results NATURAL JOIN events NATURAL JOIN categories NATURAL JOIN category_to_type WHERE eventid = NEW.eventid)
+		FOR r IN (SELECT resulttype FROM results NATURAL JOIN events NATURAL JOIN categories NATURAL JOIN disciplines WHERE eventid = NEW.eventid)
 		LOOP
 			IF r.resulttype = 'doubleInc' THEN PERFORM t1::numeric; PERFORM t2::numeric; PERFORM t3::numeric; END IF;
 			IF r.resulttype = 'intInc' THEN PERFORM t1::int; PERFORM t2::int; PERFORM t3::int; END IF;
