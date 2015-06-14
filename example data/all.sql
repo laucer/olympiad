@@ -224,47 +224,47 @@ Old Trafford Stadium
 St James' Park Stadium
 \.
 
-COPY People ( Name, Surname, Birth_Date, Sex, NationalityId, Height, Weight) FROM stdin;
-Ira	Bbrube	1985-03-07	M	1	175	75
-Bhnjamin	Bujchman	1982-01-11	M	1	169	83
-Nathanael	Holzes	1985-05-18	M	1	152	72
-Heather	Rqvel	1988-08-27	M	1	168	82
-Akexis	Oiff	1981-08-12	M	1	159	75
-Noah	Bzlt	1986-11-06	M	2	155	86
-Chad	Adajoson	1987-06-29	M	2	192	72
-Hal	Toulouse-Laut	1982-02-04	M	2	166	85
-Bv	Stkin	1986-10-11	M	2	194	86
-Alfredo	Cou	1980-06-14	M	2	172	72
-Matt	Oxff	1982-04-08	M	3	186	84
-Solomon	Vsvaldi	1982-09-17	M	3	199	85
-Felton	Fqagonard	1988-10-29	M	3	185	74
-Ollie	Duvid	1981-02-14	M	3	182	76
-Xio	Cermen	1980-08-30	M	3	174	74
-Dianne	Cou	1982-04-03	M	4	165	76
-Juan	Beqube	1988-09-07	M	4	172	74
-Len	Cdu	1989-08-05	M	4	173	76
-Christopher	Berg	1989-06-28	M	4	175	74
-Alicja	Cezlnne	1989-04-07	M	4	172	84
-Lena	Stracss	1983-09-20	M	5	191	84
-Anhel	Oeff	1986-02-02	M	5	182	75
-Hai	Bllke	1981-07-04	M	5	176	85
-Hrmer	Svein	1982-12-30	M	5	162	94
-Len	Cblvin	1980-05-01	M	5	171	88
-Alyson	Etg	1981-12-05	M	6	173	75
-Ktm	Cgvanaugh	1982-09-23	M	6	195	96
-Lce	Ctin	1987-12-03	M	6	182	89
-Kfmberly	Nlbkov	1989-01-12	M	6	183	78
-At	Nabyov	1984-05-26	M	6	171	85
-Ivaac	Chcridn	1982-09-25	M	7	192	74
-Aujutine	Adkins	1986-01-13	M	7	183	97
-Noah	Vivoldi	1982-09-05	M	7	171	85
-Isaias	Narkov	1987-03-17	M	7	192	76
-Duryll	Brqtton	1988-02-21	M	7	183	99
-Owcar	Cafill	1982-12-14	M	8	171	88
-Lio	Kqfka	1987-03-05	M	8	182	72
-Xavier	Ocff	1988-06-06	M	8	193	91
-Almero	Gjgh	1987-03-31	M	8	171	84
-Atelle	Delgadnllo	1984-07-07	M	8	162	78
+COPY People (CompetitorId  ,Name, Surname, Birth_Date, Sex, NationalityId, Height, Weight) FROM stdin;
+1	Ira	Bbrube	1985-03-07	M	1	175	75
+2	Bhnjamin	Bujchman	1982-01-11	M	1	169	83
+3	Nathanael	Holzes	1985-05-18	M	1	152	72
+4	Heather	Rqvel	1988-08-27	M	1	168	82
+5	Akexis	Oiff	1981-08-12	M	1	159	75
+6	Noah	Bzlt	1986-11-06	M	2	155	86
+7	Chad	Adajoson	1987-06-29	M	2	192	72
+8	Hal	Toulouse-Laut	1982-02-04	M	2	166	85
+9	Bv	Stkin	1986-10-11	M	2	194	86
+10	Alfredo	Cou	1980-06-14	M	2	172	72
+11	Matt	Oxff	1982-04-08	M	3	186	84
+12	Solomon	Vsvaldi	1982-09-17	M	3	199	85
+13	Felton	Fqagonard	1988-10-29	M	3	185	74
+14	Ollie	Duvid	1981-02-14	M	3	182	76
+15	Xio	Cermen	1980-08-30	M	3	174	74
+16	Dianne	Cou	1982-04-03	M	4	165	76
+17	Juan	Beqube	1988-09-07	M	4	172	74
+18	Len	Cdu	1989-08-05	M	4	173	76
+19	Christopher	Berg	1989-06-28	M	4	175	74
+20	Alicja	Cezlnne	1989-04-07	M	4	172	84
+21	Lena	Stracss	1983-09-20	M	5	191	84
+22	Anhel	Oeff	1986-02-02	M	5	182	75
+23	Hai	Bllke	1981-07-04	M	5	176	85
+24	Hrmer	Svein	1982-12-30	M	5	162	94
+25	Len	Cblvin	1980-05-01	M	5	171	88
+26	Alyson	Etg	1981-12-05	M	6	173	75
+27	Ktm	Cgvanaugh	1982-09-23	M	6	195	96
+28	Lce	Ctin	1987-12-03	M	6	182	89
+29	Kfmberly	Nlbkov	1989-01-12	M	6	183	78
+30	At	Nabyov	1984-05-26	M	6	171	85
+31	Ivaac	Chcridn	1982-09-25	M	7	192	74
+32	Aujutine	Adkins	1986-01-13	M	7	183	97
+33	Noah	Vivoldi	1982-09-05	M	7	171	85
+34	Isaias	Narkov	1987-03-17	M	7	192	76
+35	Duryll	Brqtton	1988-02-21	M	7	183	99
+36	Owcar	Cafill	1982-12-14	M	8	171	88
+37	Lio	Kqfka	1987-03-05	M	8	182	72
+38	Xavier	Ocff	1988-06-06	M	8	193	91
+39	Almero	Gjgh	1987-03-31	M	8	171	84
+40	Atelle	Delgadnllo	1984-07-07	M	8	162	78
 \.
 
 
@@ -712,7 +712,7 @@ COPY Results (EventId, Team1Id, Team2Id, Content, Additional_Content, Overall_pe
 5	206	\N	4.26	\N	\N	\N
 5	207	\N	8.12	\N	\N	\N
 5	208	\N	8.10	\N	\N	\N
-5	211	\N	8.15	\N	\N	'D'
+5	211	\N	8.15	\N	\N	D
 5	212	\N	7.99	\N	\N	\N
 5	213	\N	8.16	\N	\N	\N
 5	216	\N	8.33	\N	\N	\N
