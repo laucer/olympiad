@@ -1,3 +1,10 @@
+COPY decisions (shortcut, decision_name) FROM stdin;
+'Q'	'Qualified'
+'D'	'Disqualified'
+'WJD'	'Winner By Judge Decision'
+'W'	'Walkover'
+\.
+
 COPY Results (EventId, Team1Id, Team2Id, Content, Additional_Content, Overall_penalties, Judge_decisions) FROM stdin;
 1	1	\N	'00:00:09.24'	\N	\N	\N
 1	2	\N	'00:00:09.31'	\N	\N	\N
