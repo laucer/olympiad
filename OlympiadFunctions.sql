@@ -178,7 +178,7 @@ DECLARE
 BEGIN
 	team_id = nextval('team_seq');
 	cat_id = (SELECT categoryid from categories c WHERE c.name = discipline);
-	nation_id = (SELECT nationalityid from people WHERE people..competitorid = players[1]);
+	nation_id = (SELECT nationalityid from people WHERE people.competitorid = players[1]);
 	INSERT INTO teams(teamid, categoryid, nationality) VALUES(team_id, cat_id, nation_id);
 	FOREACH numb IN ARRAY players LOOP
 		INSERT INTO competitor_to_team(competitorid, teamid) VALUES(numb, team_id);
