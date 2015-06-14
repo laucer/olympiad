@@ -110,6 +110,23 @@ CREATE TABLE Medals(
 
 );
 
+CREATE OR REPLACE VIEW MedalsByNationality AS
+	SELECT NationalityId, 
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 1 group by nationality) AS "Gold Medal", 
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 2 group by nationality) AS "Silver Medal",
+	(SELECT Count(TeamId) FROM  Medals join Teams using (TeamId) where nationality = N.NationalityId and Medal = 3 group by nationality) AS "Bronze Medal"
+
+	FROM Nationalities N
+	ORDER BY 2, 3, 4, 1;
+	
+CREATE OR REPLACE VIEW MedalsByCompetitors AS
+	SELECT CompetitorId,
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 1 group by teamid) "Gold Medal", 
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 2 group by teamid) "Silver Medal", 
+		(SELECT COUNT (TeamId) FROM Medals where TeamId in (Select TeamId from competitor_to_team where CompetitorId = P.CompetitorId) and Medal = 3 group by teamid) "Bronze Medal" 
+	FROM People P
+	ORDER BY 2, 3, 4, 1;
+
 
 
 
