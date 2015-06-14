@@ -222,13 +222,13 @@ $$
 		IF type = 'intDec' THEN
 		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res+
 coalesce(overall_penalties::int,0)) as rel 
-		FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
+		FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)),0) as res 
 		FROM  results R JOIN teams ON team1Id = teamid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2) AS SUB2;
 		END IF;
 		IF type = 'intInc' THEn
 		return QUERY SELECT DISTINCT teamid, rel::text FROM (SELECT teamid, (res-
 coalesce(overall_penalties::int,0) ) as rel
-		 FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)+coalesce(additional_content::int,0)),0) as res 
+		 FROM (SELECT teamid, coalesce(sum(coalesce(content::int,0)),0) as res 
 		FROM  results R JOIN teams ON team1Id = teamid WHERE E.categoryid = category AND (Judge_decisions IS NULL OR Judge_decisions != 'D') GROUP BY teamid) AS SUB JOIN results ON team1id = teamid ORDER BY 2 DESC) AS SUB2;
 		END IF;
 		IF type = 'doubleAvg' THEN
