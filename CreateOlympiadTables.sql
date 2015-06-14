@@ -66,8 +66,8 @@ CREATE TABLE Events_additional_info(
 );
 
 CREATE TABLE Records(
-	CategoryId int REFERENCES Categories, --moze byc null
-	Conqueror int REFERENCES People(CompetitorId), --moze byc null
+	CategoryId int REFERENCES Categories NOT NULL,
+	Conqueror int REFERENCES People(CompetitorId) NOT NULL,
 	Datum timestamp NOT NULL,
 	Content varchar(150) NOT NULL
 	
@@ -106,7 +106,8 @@ CREATE TABLE Team_to_Event(
 
 CREATE TABLE Medals(
 	TeamId int REFERENCES Teams NOT NULL,
-	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL
+	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL,
+	UNIQUE(TeamId);
 
 );
 
