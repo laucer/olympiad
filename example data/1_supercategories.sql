@@ -1,7 +1,7 @@
 BEGIN;
 --according to wiki's Olympics page
 COPY Disciplines (Discipline_Name, SuperDiscipline, ResultType) FROM stdin;
-Diving	Aquatics	doubleInc	
+Diving	Aquatics	doubleInc
 Swimming	Aquatics	timeDec
 Synchronized swimming	Aquatics	doubleInc
 Water polo	Aquatics	intInc
