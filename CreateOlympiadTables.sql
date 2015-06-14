@@ -12,8 +12,7 @@ CREATE TABLE People (
    	Birth_Date date check ((current_timestamp - Birth_date) > interval '14 years') NOT NULL,
 	Sex char(1) check(Sex = 'F' OR Sex = 'M'),
 	NationalityId int REFERENCES nationalities NOT NULL,
-	First_Start date default now() NOT NULL, -- pierwszy wystep w reprezentajcji or slt, potrzebujemy ludzi juz nie startujacych do rekordow
-	Last_Start date check(First_start < Last_Start),
+	current_competitor boolean DEFAULT(TRUE),
 	Height int check(Height > 100) NOT NULL,
 	Weight int check(Weight > 30) NOT NULL
 	

@@ -1,4 +1,4 @@
-BEGIN;
+--BEGIN;
 
 -- DROP TABLES
 
@@ -36,6 +36,6 @@ DROP FUNCTION IF EXISTS getRanking_Teams(categoryId int, type result_type) CASCA
 DROP FUNCTION IF EXISTS getRanking_People(categoryId int, type result_type) CASCADE; 
 
 
-COMMIT;
+--COMMIT;
 -- 
 
