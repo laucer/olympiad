@@ -37,9 +37,10 @@ DROP FUNCTION IF EXISTS rand_nationality() CASCADE;
 DROP FUNCTION IF EXISTS rand_surname() CASCADE;
 DROP FUNCTION IF EXISTS rand_name() CASCADE;
 DROP FUNCTION IF EXISTS insert_and_assaign_random_team(competitionid int) CASCADE;
-DROP FUNCTION IF EXISTS getRanking_Teams(categoryId int, type result_type) CASCADE;
-DROP FUNCTION IF EXISTS getRanking_People(categoryId int, type result_type) CASCADE; 
-
+DROP FUNCTION IF EXISTS get_Ranking_Teams(categoryId int, type result_type) CASCADE;
+DROP FUNCTION IF EXISTS get_Ranking_with_People(category int, event int, lim int =0) CASCADE;
+DROP FUNCTION IF EXISTS get_Ranking_of_Category(category int,  event int, lim int = 0) CASCADE;
+DROP FUNCTION IF EXISTS get_Winners_of_Category(category int, lim int = 0) CASCADE;
 
 --COMMIT;
 -- 
