@@ -107,7 +107,7 @@ CREATE TABLE Team_to_Event(
 CREATE TABLE Medals(
 	TeamId int REFERENCES Teams NOT NULL,
 	Medal int check(medal = 1 OR medal = 2 OR medal = 3) NOT NULL,
-	UNIQUE(TeamId);
+	UNIQUE(TeamId)
 
 );
 
